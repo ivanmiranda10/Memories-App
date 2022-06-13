@@ -17,10 +17,10 @@ app.use(morgan("dev"));
 const { CONNECTION_DB_URL, PORT } = process.env;
 
 mongoose
-  .connect(CONNECTION_DB_URL) // investigar las opciones (obj) que puede recibir el connect como segundo parametro
+  .connect(CONNECTION_DB_URL)
   .then(() =>
     app.listen(PORT, () => console.log(`Server running on port: ${PORT}`))
   )
   .catch((error) => console.log(error));
 
-// mongoose.set('') // investigar que hace el set y sus distintas opciones
+
