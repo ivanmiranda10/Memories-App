@@ -8,11 +8,11 @@ const postRoutes = require("./routes/posts");
 
 const app = express();
 
-app.use("/posts", postRoutes);
-
 app.use(express.json());
 app.use(cors());
 app.use(morgan("dev"));
+
+app.use("/posts", postRoutes);
 
 const { CONNECTION_DB_URL, PORT } = process.env;
 
@@ -22,5 +22,3 @@ mongoose
     app.listen(PORT, () => console.log(`Server running on port: ${PORT}`))
   )
   .catch((error) => console.log(error));
-
-
