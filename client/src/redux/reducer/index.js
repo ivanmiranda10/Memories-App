@@ -1,5 +1,5 @@
 import { createReducer } from "@reduxjs/toolkit";
-import { GET_ALL_POSTS } from "../actions";
+import { GET_ALL_POSTS, CREATE_POST } from "../actions";
 
 const initialState = {
   posts: [],
@@ -8,10 +8,10 @@ const initialState = {
 const postReducer = createReducer(initialState, (builder) => {
   builder
     .addCase(GET_ALL_POSTS, (state, action) => {
-      return {
-        ...state,
-        posts: action.payload,
-      };
+      state.posts = action.payload;
+    })
+    .addCase(CREATE_POST, (state, action) => {
+      state.posts = [...state.posts, action.payload];
     })
     .addDefaultCase((state) => {
       return state;
