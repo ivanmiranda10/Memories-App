@@ -2,6 +2,7 @@ import axios from "axios";
 
 export const GET_ALL_POSTS = "GET_ALL_POSTS";
 export const CREATE_POST = "CREATE_POST";
+export const UPDATE_POST = "UPDATE_POST";
 
 const server = "http://localhost:5000";
 
@@ -27,6 +28,18 @@ export function createPost(payload) {
     } catch (err) {
       alert("Error create Post");
       console.log(err);
+    }
+  };
+}
+
+export function updatePost(id, post) {
+  return async function (dispatch) {
+    try {
+      const postUpdated = await axios.put(`${server}/post/update/${id}`, post);
+      return dispatch({ type: UPDATE_POST, payload: postUpdated.data });
+    } catch (error) {
+      alert("Error Update Post");
+      console.log(error);
     }
   };
 }

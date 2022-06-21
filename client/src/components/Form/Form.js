@@ -1,14 +1,12 @@
-import React, { useState } from "react";
-import { useDispatch } from "react-redux";
+import React, { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { TextField, Button, Typography, Paper } from "@mui/material";
 import FileBase64 from "react-file-base64";
-import { createPost } from "../../redux/actions";
+import { createPost, updatePost } from "../../redux/actions";
 // import useStyles from "./styles";
 
-const Form = () => {
+const Form = ({ currentId, setCurrentId }) => {
   //   const classes = useStyles();
-  const dispatch = useDispatch();
-
   const [postData, setPostData] = useState({
     creator: "",
     title: "",
@@ -17,10 +15,24 @@ const Form = () => {
     selectedFile: "",
   });
 
+  const dispatch = useDispatch();
+
+  const post = useSelector((state) =>
+    currentId ? state.posts.find((el) => el._id === currentId) : null
+  );
+
+  useEffect(() => {
+    if (post) setPostData(post);
+  }, [post]);
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(createPost(postData));
-    // console.log(postData);
+    if (currentId) {
+      dispatch(updatePost(currentId, postData));
+    } else {
+      dispatch(createPost(postData));
+    }
+    clear();
   };
 
   const handleChange = (e) => {
@@ -30,7 +42,16 @@ const Form = () => {
       [e.target.name]: e.target.value,
     });
   };
-  //   const clear = () => {};
+  const clear = () => {
+    setCurrentId(null);
+    setPostData({
+      creator: "",
+      title: "",
+      message: "",
+      tags: "",
+      selectedFile: "",
+    });
+  };
   return (
     <Paper /* className={classes.paper} */>
       <form
@@ -39,7 +60,9 @@ const Form = () => {
         /* className={`${classes.root} ${classes.form}`} */
         onSubmit={handleSubmit}
       >
-        <Typography variant="h6">Creating a Memory</Typography>
+        <Typography variant="h6">
+          {currentId ? "Edit " : "Create "} a Memory
+        </Typography>
         <TextField
           name="creator"
           variant="outlined"
@@ -98,7 +121,7 @@ const Form = () => {
           variant="contained"
           color="secondary"
           size="small"
-          //   onClick={clear}
+          onClick={clear}
           fullWidth
         >
           Clear
