@@ -3,6 +3,7 @@ import axios from "axios";
 export const GET_ALL_POSTS = "GET_ALL_POSTS";
 export const CREATE_POST = "CREATE_POST";
 export const UPDATE_POST = "UPDATE_POST";
+export const DELETE_POST = "DELETE_POST";
 
 const server = "http://localhost:5000";
 
@@ -39,6 +40,18 @@ export function updatePost(id, post) {
       return dispatch({ type: UPDATE_POST, payload: postUpdated.data });
     } catch (error) {
       alert("Error Update Post");
+      console.log(error);
+    }
+  };
+}
+
+export function deletePost(id) {
+  return async function (dispatch) {
+    try {
+      await axios.delete(`${server}/post/delete/${id}`);
+      return dispatch({ type: DELETE_POST, payload: id });
+    } catch (error) {
+      alert("Error Delete Post");
       console.log(error);
     }
   };

@@ -1,5 +1,10 @@
 import { createReducer } from "@reduxjs/toolkit";
-import { GET_ALL_POSTS, CREATE_POST, UPDATE_POST } from "../actions";
+import {
+  GET_ALL_POSTS,
+  CREATE_POST,
+  UPDATE_POST,
+  DELETE_POST,
+} from "../actions";
 
 const initialState = {
   posts: [],
@@ -17,6 +22,9 @@ const postReducer = createReducer(initialState, (builder) => {
       state.posts.map((el) =>
         el._id === action.payload._id ? action.payload : state.posts
       );
+    })
+    .addCase(DELETE_POST, (state, action) => {
+      state.posts.filter((post) => post._id !== action.payload);
     })
     .addDefaultCase((state) => {
       return state;
