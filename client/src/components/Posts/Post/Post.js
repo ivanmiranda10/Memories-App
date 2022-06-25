@@ -10,7 +10,7 @@ import {
 } from "@mui/material";
 import { ThumbUpAlt, Delete, MoreHoriz } from "@mui/icons-material";
 import moment from "moment";
-import { deletePost } from "../../../redux/actions";
+import { deletePost, likePost } from "../../../redux/actions";
 // import useStyles from "./styles";
 
 const Post = ({ post, setCurrentId }) => {
@@ -58,7 +58,11 @@ const Post = ({ post, setCurrentId }) => {
         </Typography>
       </CardContent>
       <CardActions /* className={classes.CardActions} */>
-        <Button size="small" color="primary" onClick={() => {}}>
+        <Button
+          size="small"
+          color="primary"
+          onClick={() => dispatch(likePost(post._id))}
+        >
           <ThumbUpAlt fontSize="small" />
           Like {post.likeCount}
         </Button>

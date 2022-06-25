@@ -4,6 +4,7 @@ export const GET_ALL_POSTS = "GET_ALL_POSTS";
 export const CREATE_POST = "CREATE_POST";
 export const UPDATE_POST = "UPDATE_POST";
 export const DELETE_POST = "DELETE_POST";
+export const LIKE_POST = "LIKE_POST";
 
 const server = "http://localhost:5000";
 
@@ -52,6 +53,18 @@ export function deletePost(id) {
       return dispatch({ type: DELETE_POST, payload: id });
     } catch (error) {
       alert("Error Delete Post");
+      console.log(error);
+    }
+  };
+}
+
+export function likePost(id) {
+  return async function (dispatch) {
+    try {
+      const postLiked = await axios.patch(`${server}/post/like/${id}`);
+      return dispatch({ type: LIKE_POST, payload: postLiked.data });
+    } catch (error) {
+      alert("Error Like Post");
       console.log(error);
     }
   };
